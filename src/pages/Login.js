@@ -18,7 +18,12 @@ function Login() {
         password
       });
       login(response.data.token, response.data.userType);
-      navigate('/dashboard');
+      if (response.data.userType === 'government') {
+        navigate('/dashboardGov')
+      } else {
+        navigate('/dashboard')
+      }
+
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
     }
@@ -66,7 +71,7 @@ function Login() {
         </form>
 
         <p className="mt-4 text-center text-sm">
-          <span>Not registered?</span>
+          <span className="text-black">Not registered?</span>
           <a href="/register" className="text-blue-600 hover:underline"> Register</a>
         </p>
       </div>

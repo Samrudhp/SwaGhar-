@@ -47,7 +47,7 @@ const Home = () => {
             </button>
           )}
           <button
-            onClick={() => navigate('/application')}
+            onClick={() => navigate('/dashboard')}
             className="px-6 py-3 border bg-black text-white dark:bg-slate-300 dark:text-gray-900 rounded-lg transition-all"
           >
             View Applications

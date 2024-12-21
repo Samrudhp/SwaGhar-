@@ -4,6 +4,7 @@ import { Menu as MenuIcon, Moon, Sun } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const ThemeToggle = ({ themeMode, toggleTheme }) => {
+
   return (
     <div className="relative inline-block">
       <input
@@ -24,7 +25,6 @@ const ThemeToggle = ({ themeMode, toggleTheme }) => {
           ${themeMode === 'dark' ? 'bg-[#9476ff]' : 'bg-gray-700'}
         `}
       >
-        {/* Sun Icon - Show when light mode */}
         <div className={`
           absolute left-2 z-10
           transition-all duration-300
@@ -33,8 +33,7 @@ const ThemeToggle = ({ themeMode, toggleTheme }) => {
         `}>
           <Sun size={16} className="text-yellow-300" />
         </div>
-        
-        {/* Moon Icon - Show when dark mode */}
+
         <div className={`
           absolute right-2 z-10
           transition-all duration-300
@@ -44,7 +43,6 @@ const ThemeToggle = ({ themeMode, toggleTheme }) => {
           <Moon size={16} className="text-white" />
         </div>
 
-        {/* Toggle Circle */}
         <div
           className={`
             absolute top-1 
@@ -61,7 +59,6 @@ const ThemeToggle = ({ themeMode, toggleTheme }) => {
   );
 };
 
-
 const Navigation = ({ themeMode, toggleTheme }) => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,8 +72,8 @@ const Navigation = ({ themeMode, toggleTheme }) => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-black to-slate-900 text-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-6 py-3 flex items-center justify-between">  
+    <nav className={`bg-gradient-to-r from-black to-slate-900 text-white shadow-md sticky top-0 z-50 ${themeMode === 'dark' ? 'bg-gray-900' : 'bg-gradient-to-r from-black to-slate-900'}`}>
+      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
         <RouterLink
           to="/"
           className="text-2xl tracking-wide font-bold text-white hover:text-gray-200 transition duration-300"
@@ -91,6 +88,23 @@ const Navigation = ({ themeMode, toggleTheme }) => {
           >
             Home
           </RouterLink>
+
+
+          {(user && user.userType === 'government') ? (
+            <RouterLink
+              to="/dashboardGov"
+              className="hover:text-gray-200 hover:scale-110 transition duration-300"
+            >
+              Dashboard
+            </RouterLink>
+          ) : (
+            <RouterLink
+              to="/dashboard"
+              className="hover:text-gray-200 hover:scale-110 transition duration-300"
+            >
+              Dashboard
+            </RouterLink>
+          )}
 
           {!user && (
             <RouterLink
@@ -109,29 +123,20 @@ const Navigation = ({ themeMode, toggleTheme }) => {
               >
                 Application
               </RouterLink>
-              <button
-                onClick={logout}
-                className="hover:text-gray-200 hover:scale-110 transition duration-300"
-              >
-                Logout
-              </button>
+              <RouterLink to='/' >
+                <button
+                  onClick={logout}
+                  className="hover:text-gray-200 hover:scale-110 transition duration-300"
+                >
+                  Logout
+                </button>
+              </RouterLink>
             </>
           )}
 
-          {user && user.userType === 'government' && (
-            <RouterLink
-              to="/dashboard"
-              className="hover:text-gray-200 hover:scale-110 transition duration-300"
-            >
-              Dashboard
-            </RouterLink>
-          )}
-
-        
           <ThemeToggle themeMode={themeMode} toggleTheme={toggleTheme} />
         </div>
 
-        
         <button
           className="sm:hidden focus:outline-none"
           onClick={handleMenuToggle}
@@ -141,21 +146,30 @@ const Navigation = ({ themeMode, toggleTheme }) => {
       </div>
 
       {isMenuOpen && (
-        <div className="sm:hidden bg-gradient-to-r from-black to-slate-900 p-4 shadow-md">
+        <div className={`sm:hidden p-4 shadow-md ${themeMode === 'dark' ? 'bg-gray-800' : 'bg-gradient-to-r from-black to-slate-900'}`}>
           <RouterLink
             to="/"
-            className="block py-2 px-4  rounded-md"
+            className="block py-2 px-4 text-white hover:text-gray-200 rounded-md"
             onClick={closeMenu}
           >
             Home
           </RouterLink>
-          {!user && (
+
+          {(user && user.userType === 'government') ? (
             <RouterLink
-              to="/register"
-              className="block py-2 px-4  rounded-md"
+              to="/dashboardGov"
+              className="block py-2 px-4 text-white hover:text-gray-200 rounded-md"
               onClick={closeMenu}
             >
-              Register
+              Dashboard
+            </RouterLink>
+          ) : (
+            <RouterLink
+              to="/dashboard"
+              className="block py-2 px-4 text-white hover:text-gray-200 rounded-md"
+              onClick={closeMenu}
+            >
+              Dashboard
             </RouterLink>
           )}
 
@@ -163,7 +177,7 @@ const Navigation = ({ themeMode, toggleTheme }) => {
             <>
               <RouterLink
                 to="/application"
-                className="block py-2 px-4  rounded-md"
+                className="block py-2 px-4 text-white hover:text-gray-200 rounded-md"
                 onClick={closeMenu}
               >
                 Application
@@ -173,24 +187,24 @@ const Navigation = ({ themeMode, toggleTheme }) => {
                   closeMenu();
                   logout();
                 }}
-                className="block py-2 px-4 text-left w-full  rounded-md"
+                className="block py-2 px-4 text-left w-full text-white hover:text-gray-200 rounded-md"
               >
                 Logout
               </button>
             </>
           )}
 
-          {user && user.userType === 'government' && (
+          {!user && (
             <RouterLink
-              to="/dashboard"
-              className="block py-2 px-4  rounded-md"
+              to="/login"
+              className="block py-2 px-4 text-white hover:text-gray-200 rounded-md"
               onClick={closeMenu}
             >
-              Dashboard
+              Login
             </RouterLink>
           )}
 
-     
+
           <div className="py-2 px-4 flex justify-center">
             <ThemeToggle themeMode={themeMode} toggleTheme={toggleTheme} />
           </div>
