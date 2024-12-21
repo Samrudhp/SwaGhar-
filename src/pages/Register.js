@@ -57,7 +57,7 @@ const Register = () => {
             if(formData.userType==='government'){
                 navigate('/dashboardGov')
             }else{
-                navigate('/application')
+                navigate('/dashboard')
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed');

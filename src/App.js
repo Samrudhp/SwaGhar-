@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
 import { AuthProvider } from './contexts/AuthContext';
-import Register from './pages/Register';
+import Layout from './components/Layout';
 import Navigation from './components/Navigation'
+import Register from './pages/Register';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard'
+import GovernmentDashboard from './pages/GovernmentDashboard'
+import Application from './pages/Application'
+import ProtectedRoute from './components/ProtectedRoute';
+import MyApplication from './pages/MyApplication';
 
 function App() {
   const [themeMode, setThemeMode] = useState('light');
@@ -23,7 +29,12 @@ function App() {
               <main className="p-6">
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/application" element={<Application />} />
+                  <Route path="/my-application" element={<MyApplication />} />
+                  <Route path="/dashboardGov" element={<ProtectedRoute userType="government"><GovernmentDashboard /></ProtectedRoute>} />
                 </Routes>
               </main>
             </Layout>

@@ -16,60 +16,64 @@ const Navigation = ({ themeMode, toggleTheme }) => {
   };
 
   return (
-    <nav className="bg-blue-600 text-white shadow-md">
-      <div className="container mx-auto px-4 flex items-center justify-between h-16">
+    <nav className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <RouterLink
           to="/"
-          className="text-xl font-semibold hover:text-blue-300"
+          className="text-2xl font-bold tracking-wider text-white hover:text-gray-200 transition duration-300"
         >
           Housing Portal
         </RouterLink>
 
-        {/* Desktop Links and Theme Toggle */}
-        <div className="hidden sm:flex items-center space-x-4">
+        {/* Desktop Menu */}
+        <div className="hidden sm:flex items-center space-x-6">
           <RouterLink
             to="/"
-            className="hover:text-blue-300 transition duration-300"
+            className="hover:text-gray-200 transition duration-300"
           >
             Home
           </RouterLink>
+
           {!user && (
             <RouterLink
-              to="/register"
-              className="hover:text-blue-300 transition duration-300"
+              to="/login"
+              className="hover:text-gray-200 transition duration-300"
             >
-              Register
+              Login
             </RouterLink>
           )}
+
           {user && (
             <>
               <RouterLink
                 to="/application"
-                className="hover:text-blue-300 transition duration-300"
+                className="hover:text-gray-200 transition duration-300"
               >
                 Application
               </RouterLink>
               <button
                 onClick={logout}
-                className="hover:text-blue-300 transition duration-300"
+                className="hover:text-gray-200 transition duration-300"
               >
                 Logout
               </button>
             </>
           )}
+
           {user && user.userType === 'government' && (
             <RouterLink
               to="/dashboard"
-              className="hover:text-blue-300 transition duration-300"
+              className="hover:text-gray-200 transition duration-300"
             >
               Dashboard
             </RouterLink>
           )}
+
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="px-4 py-2 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-800 transition-all"
+            className="px-4 py-2 bg-gray-700 rounded-full text-white hover:bg-gray-600 transition-all"
           >
             {themeMode === 'light' ? 'Dark Mode' : 'Light Mode'}
           </button>
@@ -80,16 +84,16 @@ const Navigation = ({ themeMode, toggleTheme }) => {
           className="sm:hidden focus:outline-none"
           onClick={handleMenuToggle}
         >
-          <MenuIcon size={24} />
+          <MenuIcon size={24} className="text-white hover:text-gray-200 transition duration-300" />
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="sm:hidden bg-blue-500 shadow-md">
+        <div className="sm:hidden bg-gradient-to-r from-blue-500 to-blue-600 p-4 shadow-md">
           <RouterLink
             to="/"
-            className="block px-4 py-2 hover:bg-blue-700"
+            className="block py-2 px-4 hover:bg-blue-700 rounded-md"
             onClick={closeMenu}
           >
             Home
@@ -97,17 +101,18 @@ const Navigation = ({ themeMode, toggleTheme }) => {
           {!user && (
             <RouterLink
               to="/register"
-              className="block px-4 py-2 hover:bg-blue-700"
+              className="block py-2 px-4 hover:bg-blue-700 rounded-md"
               onClick={closeMenu}
             >
               Register
             </RouterLink>
           )}
+
           {user && (
             <>
               <RouterLink
                 to="/application"
-                className="block px-4 py-2 hover:bg-blue-700"
+                className="block py-2 px-4 hover:bg-blue-700 rounded-md"
                 onClick={closeMenu}
               >
                 Application
@@ -117,25 +122,27 @@ const Navigation = ({ themeMode, toggleTheme }) => {
                   closeMenu();
                   logout();
                 }}
-                className="block px-4 py-2 text-left w-full hover:bg-blue-700"
+                className="block py-2 px-4 text-left w-full hover:bg-blue-700 rounded-md"
               >
                 Logout
               </button>
             </>
           )}
+
           {user && user.userType === 'government' && (
             <RouterLink
               to="/dashboard"
-              className="block px-4 py-2 hover:bg-blue-700"
+              className="block py-2 px-4 hover:bg-blue-700 rounded-md"
               onClick={closeMenu}
             >
               Dashboard
             </RouterLink>
           )}
+
           {/* Theme Toggle Button in Mobile Menu */}
           <button
             onClick={toggleTheme}
-            className="block px-4 py-2 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-800 transition-all"
+            className="block py-2 px-4 bg-gray-700 rounded-full text-white hover:bg-gray-600 transition-all w-full"
           >
             {themeMode === 'light' ? 'Dark Mode' : 'Light Mode'}
           </button>
