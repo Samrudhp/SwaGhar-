@@ -11,6 +11,7 @@ import GovernmentDashboard from './pages/GovernmentDashboard'
 import Application from './pages/Application'
 import ProtectedRoute from './components/ProtectedRoute';
 import MyApplication from './pages/MyApplication';
+import Footer from './components/Footer';
 
 function App() {
   const [themeMode, setThemeMode] = useState('light');
@@ -38,6 +39,7 @@ function App() {
                 </Routes>
               </main>
             </Layout>
+            <Footer/>
           </div>
         </div>
       </BrowserRouter>
