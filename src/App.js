@@ -1,38 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import { AuthProvider } from './contexts/AuthContext';
 import Register from './pages/Register';
-
-
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1976d2',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-  },
-});
+import Navigation from './components/Navigation'
 
 function App() {
+  const [themeMode, setThemeMode] = useState('light');
+
+  const toggleTheme = () => {
+    setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className={`${themeMode} min-h-screen`}>
+          <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen transition-all">
+            <Navigation themeMode={themeMode} toggleTheme={toggleTheme} />
+            <Layout>
+              <main className="p-6">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/register" element={<Register />} />
+                </Routes>
+              </main>
+            </Layout>
+          </div>
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
