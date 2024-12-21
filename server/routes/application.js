@@ -1,130 +1,116 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
+const Application = require('../models/Application');
+const User = require('../models/User')
 
-// Get user profile
-router.get('/profile', auth, async (req, res) => {
+// Create new application
+router.post('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const application = new Application({
+      userId: req.userId,
+      personalInfo: req.body.personalInfo,
+      housingPreferences: req.body.housingPreferences,
+      status: 'pending'
+    });
+
+    await application.save();
+    res.status(201).json(application);
+  } catch (error) {
+    res.status(500).json({ message: 'Error creating application' });
+  }
+});
+
+// Get user's applications
+router.get('/my-applications', auth, async (req, res) => {
+  try {
+    const applications = await Application.find({ userId: req.userId });
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching applications' });
+  }
+});
+
+// Get specific application
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
     }
-    res.json(user);
+    if (application.userId.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+    res.json(application);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching profile' });
+    res.status(500).json({ message: 'Error fetching application' });
   }
 });
 
-// Update user profile
-router.patch('/profile', auth, async (req, res) => {
+// Update application (only if pending)
+router.put('/:id', auth, async (req, res) => {
   try {
-    const updates = req.body;
-    
-    // Remove sensitive fields that shouldn't be updated directly
-    delete updates.password;
-    delete updates.userType;
-    delete updates.verified;
+    const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
+    if (application.userId.toString() !== req.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+    if (application.status !== 'pending') {
+      return res.status(400).json({ message: 'Cannot update processed application' });
+    }
 
-    const user = await User.findByIdAndUpdate(
-      req.userId,
-      { $set: updates },
-      { new: true }
-    ).select('-password');
-
-    res.json(user);
+    Object.assign(application, req.body);
+    await application.save();
+    res.json(application);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating profile' });
+    res.status(500).json({ message: 'Error updating application' });
   }
 });
 
-// Change password
-router.post('/change-password', auth, async (req, res) => {
+router.patch('/:id/status', auth, async (req, res) => {
   try {
-    const { currentPassword, newPassword } = req.body;
-    
+    const { status } = req.body;
     const user = await User.findById(req.userId);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Current password is incorrect' });
-    }
-
-    user.password = newPassword;
-    await user.save();
-
-    res.json({ message: 'Password updated successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error changing password' });
-  }
-});
-
-// Get all users (admin only)
-router.get('/', auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.userId);
     if (user.userType !== 'government') {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    const users = await User.find().select('-password');
-    res.json(users);
+    const application = await Application.findById(req.params.id);
+    if (!application) {
+      return res.status(404).json({ message: 'Application not found' });
+    }
+
+    application.status = status;
+    application.reviewedBy = req.userId;
+    application.reviewDate = new Date();
+
+    await application.save();
+    res.json(application);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching users' });
+    res.status(500).json({ message: 'Error updating application status' });
   }
 });
-
-// Verify user (government officials only)
-router.patch('/:id/verify', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
-    const admin = await User.findById(req.userId);
-    if (admin.userType !== 'government') {
-      return res.status(403).json({ message: 'Only government officials can verify users' });
-    }
+    const user = await User.findById(req.userId);
 
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: { verified: true } },
-      { new: true }
-    ).select('-password');
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Error verifying user' });
-  }
-});
-
-// Delete user (admin only)
-router.delete('/:id', auth, async (req, res) => {
-  try {
-    const admin = await User.findById(req.userId);
-    if (admin.userType !== 'government') {
-      return res.status(403).json({ message: 'Unauthorized' });
-    }
-
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Prevent deleting another admin
     if (user.userType === 'government') {
-      return res.status(400).json({ message: 'Cannot delete government official accounts' });
+      const applications = await Application.find()
+        .populate('userId', 'personalDetails')
+        .sort('-createdAt');
+      res.json(applications);
+    } else {
+      const applications = await Application.find({ userId: req.userId })
+        .sort('-createdAt');
+      res.json(applications);
     }
-
-    await user.remove();
-    res.json({ message: 'User deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting user' });
+    res.status(500).json({ message: 'Error fetching applications' });
   }
 });
 
 module.exports = router;
+
