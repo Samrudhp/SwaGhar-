@@ -21,7 +21,8 @@ const applicationSchema = new mongoose.Schema({
     preferredSize: String
   },
   reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  reviewNotes: String
+  reviewNotes: String,
+  reviewDate : Date
 }, { timestamps: true });
 
 module.exports = mongoose.model('Application', applicationSchema);
