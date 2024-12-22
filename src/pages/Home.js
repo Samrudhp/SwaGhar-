@@ -87,7 +87,6 @@ const Home = () => {
       </header> */}
 
       {/* test two */}
-      {/* <GeminiChat/> */}
       <header className="relative text-center p-8 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-lg transform hover:-translate-y-2 transition-all duration-300">
         <h1 className="text-4xl font-bold text-blue-900 dark:text-blue-200 mb-4">
           <span className="text-4xl font-bold text-amber-600 dark:text-amber-400">SwaGhar</span> - Connecting You to Your Ideal Home

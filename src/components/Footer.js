@@ -39,9 +39,7 @@ const Footer = () => {
           <div className='flex flex-col gap-3 p-1'>
             <h5>SwaGhar</h5>
             <h5>Address Line 1, City, State, ZIP</h5>
-            <h5 className='text-lightBlue hover:text-red-600 transition duration-150'>
-              <a href="https://www.yourcompanywebsite.com" target='_blank' rel="noopener noreferrer">yourcompanywebsite.com</a>
-            </h5>
+           
             <h5>Contact: +91 123 456 7890</h5>
           </div>
         </div>
