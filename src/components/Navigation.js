@@ -115,7 +115,7 @@ const Navigation = ({ themeMode, toggleTheme }) => {
             </RouterLink>
           )}
 
-          {user && (
+          {(user && user.userType !== "government") ? (
             <>
               <RouterLink
                 to="/application"
@@ -123,6 +123,7 @@ const Navigation = ({ themeMode, toggleTheme }) => {
               >
                 Application
               </RouterLink>
+              
               <RouterLink to='/' >
                 <button
                   onClick={logout}
@@ -132,7 +133,22 @@ const Navigation = ({ themeMode, toggleTheme }) => {
                 </button>
               </RouterLink>
             </>
-          )}
+          ) : ( user && 
+          <div>
+              {
+                <RouterLink to='/' >
+                <button
+                  onClick={logout}
+                  className="hover:text-gray-200 hover:scale-110 transition duration-300"
+                >
+                  Logout
+                </button>
+              </RouterLink>
+
+
+              }
+          </div>
+        )}
 
           <ThemeToggle themeMode={themeMode} toggleTheme={toggleTheme} />
         </div>
