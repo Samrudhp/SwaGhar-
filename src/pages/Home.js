@@ -2,7 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, UserPlus, FileText } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import GeminiChat from '../components/ChatbotPopup';
+import DisplayInfo from '../components/DisplayInfo';
+// import GeminiChat from '../components/ChatbotPopup';
 
 
 const Home = () => {
@@ -131,7 +132,7 @@ const Home = () => {
       </div> */}
 
       {/* test one */}
-   
+
       <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {features.map((feature, index) => (
           <div
@@ -250,8 +251,7 @@ const Home = () => {
           </div>
         </section>
       </div>
-
-
+      <DisplayInfo />
     </div>
   );
 };
