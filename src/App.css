@@ -1,5 +1,8 @@
 
-
+.App{
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 .App {
   text-align: center;
