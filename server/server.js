@@ -2,10 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require("dotenv");
 
+dotenv.config();
 const authRoutes = require('./routes/auth');
 const applicationRoutes = require('./routes/application');
 const userRoutes = require('./routes/users');
+const chatbotRoutes = require('./routes/chatbot');
 
 const app = express();
 
@@ -16,6 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/c',chatbotRoutes)
 
 require("./config/db").connectDB();
 
