@@ -394,10 +394,10 @@ const Navigation = ({ themeMode, toggleTheme }) => {
     // </nav>
 
     //tst two
-    <nav 
-      className={`relative mx-auto top-5 w-11/12 lg:w-10/12 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-lg rounded-xl transform transition-all duration-300 ${isMenuOpen ? 'z-50' : ''
+    <nav
+      className={`relative mx-auto w-11/12 lg:w-10/12 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-lg rounded-xl transform transition-all duration-300 ${isMenuOpen ? 'z-50' : ''
         }`}
-      
+      style={{ marginTop: '20px', borderRadius: '2rem' }}
     >
       <div className="container mx-auto px-6 py-4 flex items-center justify-between gap-3">
         <RouterLink

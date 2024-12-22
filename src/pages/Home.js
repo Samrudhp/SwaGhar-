@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, UserPlus, FileText } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import GeminiChat from '../components/ChatbotPopup';
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ const Home = () => {
       </header> */}
 
       {/* test two */}
-      <header className="relative text-center p-8 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-800 dark:to-blue-700 shadow-lg transform hover:-translate-y-2 transition-all duration-300">
+      <header className="relative text-center p-8 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800 shadow-lg transform hover:-translate-y-2 transition-all duration-300">
         <h1 className="text-4xl font-bold text-blue-900 dark:text-blue-200 mb-4">
           <span className="text-4xl font-bold text-amber-600 dark:text-amber-400">SwaGhar</span> - Connecting You to Your Ideal Home
         </h1>
@@ -129,6 +131,7 @@ const Home = () => {
       </div> */}
 
       {/* test one */}
+   
       <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
         {features.map((feature, index) => (
           <div
