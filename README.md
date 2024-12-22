@@ -163,8 +163,8 @@ flowchart TD
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/housing-management-system.git
-cd housing-management-system
+git clone https://github.com/Samrudhp/SwaGhar.git
+cd housing-management
 ```
 
 2. Install dependencies
@@ -191,7 +191,7 @@ cd server
 npm run dev
 
 # In a new terminal, start frontend
-cd client
+cd ..
 npm run dev
 ```
 
@@ -238,7 +238,7 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 ## Contact
 
 Your Name - samrudhprakash3084@gmail.com
-Project Link: https://github.com/yourusername/housing-management-system
+Project Link: https://github.com/Samrudhp/SwaGhar
 
 ## Acknowledgments
 
