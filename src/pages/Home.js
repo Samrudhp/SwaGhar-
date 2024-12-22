@@ -215,7 +215,7 @@ const Home = () => {
             >
               <div className="overflow-hidden rounded-md">
                 <img
-                  src={`/images/image${index + 1}.jpg`}
+                  src={`/images/image${index + 1}${index === 2 ? '.webp' : '.jpg'}`}
                   alt={`Housing Contribution ${index + 1}`}
                   className="w-full h-64 object-cover rounded-md group-hover:scale-110 transition-transform duration-500"
                 />
