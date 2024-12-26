@@ -36,7 +36,8 @@ const GovernmentDashboard = () => {
 
   const fetchApplications = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/applications', {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
+      const response = await axios.get(`${apiUrl}/api/applications`, {
         headers: { Authorization: `Bearer ${user.token}` }
       });
       setApplications(response.data);
@@ -58,9 +59,10 @@ const GovernmentDashboard = () => {
   };
 
   const handleStatusUpdate = async (applicationId, newStatus) => {
-    try {
+    try {   
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.patch(
-        `http://localhost:5000/api/applications/${applicationId}/status`,
+        `${apiUrl}/api/applications/${applicationId}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
@@ -78,92 +80,7 @@ const GovernmentDashboard = () => {
   ];
 
   return (
-    //real one
-    // <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-    //   <Grid2 container spacing={3}>
-    //     {/* Stats Cards */}
-    //     {statsCards.map((card, index) => (
-    //       <Grid2 xs={12} sm={6} md={3} key={index}>
-    //         <Card>
-    //           <CardContent>
-    //             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-    //               <Box sx={{ color: card.color, mr: 1 }}>{card.icon}</Box>
-    //               <Typography variant="h6" component="div">
-    //                 {card.title}
-    //               </Typography>
-    //             </Box>
-    //             <Typography variant="h4" component="div" sx={{ color: card.color }}>
-    //               {card.value}
-    //             </Typography>
-    //           </CardContent>
-    //         </Card>
-    //       </Grid2>
-    //     ))}
-
-    //     {/* Recent Applications Table */}
-    //     <Grid2 xs={12}>
-    //       <Paper sx={{ p: 2 }}>
-    //         <Typography variant="h6" gutterBottom>
-    //           Recent Applications
-    //         </Typography>
-    //         <Table>
-    //           <TableHead>
-    //             <TableRow>
-    //               <TableCell>Application ID</TableCell>
-    //               <TableCell>Applicant Name</TableCell>
-    //               <TableCell>Family Size</TableCell>
-    //               <TableCell>Monthly Income</TableCell>
-    //               <TableCell>Status</TableCell>
-    //               <TableCell>Actions</TableCell>
-    //             </TableRow>
-    //           </TableHead>
-    //           <TableBody>
-    //             {applications.map((application) => (
-    //               <TableRow key={application._id}>
-    //                 <TableCell>#{application._id.slice(-6)}</TableCell>
-    //                 <TableCell>{application.userId?.personalDetails?.name}</TableCell>
-    //                 <TableCell>{application.personalInfo.familySize}</TableCell>
-    //                 <TableCell>${application.personalInfo.monthlyIncome}</TableCell>
-    //                 <TableCell>
-    //                   <Chip
-    //                     label={application.status}
-    //                     color={
-    //                       application.status === 'pending' ? 'warning' :
-    //                       application.status === 'approved' ? 'success' : 'error'
-    //                     }
-    //                   />
-    //                 </TableCell>
-    //                 <TableCell>
-    //                   {application.status === 'pending' && (
-    //                     <Box>
-    //                       <Button
-    //                         size="small"
-    //                         variant="contained"
-    //                         color="success"
-    //                         onClick={() => handleStatusUpdate(application._id, 'approved')}
-    //                         sx={{ mr: 1 }}
-    //                       >
-    //                         Approve
-    //                       </Button>
-    //                       <Button
-    //                         size="small"
-    //                         variant="contained"
-    //                         color="error"
-    //                         onClick={() => handleStatusUpdate(application._id, 'rejected')}
-    //                       >
-    //                         Reject
-    //                       </Button>
-    //                     </Box>
-    //                   )}
-    //                 </TableCell>
-    //               </TableRow>
-    //             ))}
-    //           </TableBody>
-    //         </Table>
-    //       </Paper>
-    //     </Grid2>
-    //   </Grid2>
-    // </Container>
+    
 
     // test one
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4, background: "linear-gradient(to right, #f3f4f6, #e5e7eb)", borderRadius: "12px", boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)" }}>

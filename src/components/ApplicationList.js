@@ -20,8 +20,9 @@ const ApplicationList = () => {
     const fetchApplications = async () => {
       if (!user || !user.token) return; // Ensure user and token exist
       try {
+        const apiUrl = process.env.REACT_APP_BACKEND_URL;
         const response = await axios.get(
-          'http://localhost:5000/api/applications/my-applications',
+          `${apiUrl}/api/applications/my-applications`,
           { headers: { Authorization: `Bearer ${user.token}` } }
         );
         setApplications(response.data);

@@ -48,8 +48,9 @@ const ApplicationForm = () => {
     }
 
     try {
+      const apiUrl = process.env.REACT_APP_BACKEND_URL;
       await axios.post(
-        'http://localhost:5000/api/applications',
+        `${apiUrl}/api/applications`,
         formData,
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
