@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home as HomeIcon, UserPlus, FileText } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import DisplayInfo from '../components/DisplayInfo';
+// import DisplayInfo from '../components/DisplayInfo';
 // import GeminiChat from '../components/ChatbotPopup';
 
 
@@ -251,7 +251,7 @@ const Home = () => {
           </div>
         </section>
       </div>
-      <DisplayInfo />
+      {/* <DisplayInfo /> */}
     </div>
   );
 };
