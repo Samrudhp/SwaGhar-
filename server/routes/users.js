@@ -22,7 +22,7 @@ router.patch('/profile', auth, async (req, res) => {
   try {
     const updates = req.body;
     
-    // Remove sensitive fields that shouldn't be updated directly
+    
     delete updates.password;
     delete updates.userType;
     delete updates.verified;
